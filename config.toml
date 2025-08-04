@@ -1,0 +1,37 @@
+[wallet]
+private_key = "xxx"
+
+[rpc]
+endpoint = "http://mainnet.helius-rpc.com/?api-key="
+
+[grpc]
+endpoint = "http://"
+token = ""
+
+[trade]
+buy_sol_amount = 0.0001
+third_party_fee = 0.0001
+slippage = 100.0  # 0.1%
+
+[snipe]
+profit_target = 1.5      # 50% profit target
+stop_loss = 0.7          # Stop loss threshold
+bundle_detect_threshold = 3  # Wallets in bundle before sniping
+
+[priority_fee]
+cu = 100000  # microLamports
+priority_fee_micro_lamport = 1  # CU budget, priorityfee = UNIT_LIMIT * (UNIT_PRICE * 10^-6)
+
+[services]
+nozomi_api_key = ""
+zero_slot_key = ""
+confirm_service = "NOZOMI"  # Enum: JITO / ZERO_SLOT / NOZOMI
+
+
+[filter]
+x_check = false
+x_filter_list = ["https://x.com/"]
+dev_buy_check = false
+dev_buy_limit = 10      #   10 SOL
+token_name_check = false
+token_name_filter_list = []

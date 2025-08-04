@@ -1,110 +1,114 @@
-# Bot-Pad v_1
 
-This is the bundle project of Solana Trading Bots running on several Solana Dex Platform such as Pumpfun and Raydium.
-This Bot consists of various Trading Bot like Sniping Bot and Volume Bot , Copytrading Bot ...
+# 🚀 Bonk.fun Sniper Bot — Helius Laserstream gRPC (Solana)
 
-In this bot , I focus on two things:
+A high-speed **Bonk.fun Sniper Bot** powered by **Helius Laserstream (gRPC)** for real-time Solana transaction streaming and instant token sniping.
 
-- To Prevent Scamming : I know my people feel hesitating the usage of Bot.
-In this bot , You use your temporary wallet which is used in Bot-Pad.
-You can deposit your sol to this temp wallet as much as you want.
-Deposit little Sol to temp wallet as little as you can run this bot once.
-    
-- High Quality : There are many aspects that determine the high quality. RPC and Code quality.
-If you use custom RPC , you can speed up the Bot quality.
+Built for ultra-low-latency detection and automated buys/sells on **Bonk.fun** token launches.
 
-- I'm not frontend Dev and sorry for poor UI, I used to develop node , telegram bot.
+---
 
-<h4> 📞 Cᴏɴᴛᴀᴄᴛ ᴍᴇ Oɴ ʜᴇʀᴇ: 👆🏻 </h4>
+## ✨ Features
+- ⚡ **Real-time transaction stream** via **Helius Laserstream (gRPC)**
+- 🎯 Auto-detects early Bonk.fun token launches (bundle-based mints)
+- 🤖 Fully automated snipe execution
+- 🪙 Customizable buy/sell logic & anti-rug filters
+- 🔒 Secure private key usage (no key exposure)
+- 📊 Transaction metrics & logs
+- 🧩 Modular architecture for extending new heuristics
 
-<p> 
-    <a href="mailto:nakao95911@gmail.com" target="_blank">
-        <img alt="Email"
-        src="https://img.shields.io/badge/Email-00599c?style=for-the-badge&logo=gmail&logoColor=white"/>
-    </a>
-     <a href="https://x.com/_wizardev" target="_blank"><img alt="Twitter"
-        src="https://img.shields.io/badge/Twitter-000000?style=for-the-badge&logo=x&logoColor=white"/></a>
-    <a href="https://discordapp.com/users/471524111512764447" target="_blank"><img alt="Discord"
-        src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white"/></a>
-    <a href="https://t.me/wizardev" target="_blank"><img alt="Telegram"
-        src="https://img.shields.io/badge/Telegram-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
-</p>
+---
 
-### Structure
+## 🛠 Tech Stack
+- **Rust** — Core bot logic & performance
+- **Helius Laserstream gRPC** — Live transaction feeds
+- **Solana SDK** — Transaction signing & simulation
+- **Yellowstone gRPC** (Optional for alternative stream)
+- **Config.toml** — Easy environment configuration
 
-- Sniping Bot ( Raydium , Pumpfun )
-![Screenshot_1](https://github.com/user-attachments/assets/0bf18a48-99c8-4a86-bf8b-8c8825ba4406)
-- Volume Bot ( Raydium )
+---
 
-- Copytrading Bot ( Raydium )
+## 📦 Installation
 
-- User Info
-![Screenshot_2](https://github.com/user-attachments/assets/f29b5154-67de-4f52-ba28-c5e7f7b18236)
-# Contact
-
-- You can easily find me in [Discord](https://discordapp.com/users/471524111512764447) , [Telegram](https://t.me/wizardev) , [X.com](https://x.com/_wizardev) , [Live URL](https://bot-pad-frontend.vercel.app/)
-
-### What can you do in this project
-- This is not commerical site , this is for solana learners who are willing to develop solana bot.
-- If you wanna have solana trading bot , I can customize it for your requirement.
-
-#### Version Info
-- v_1 : Raydium Sniping Bot
-- v_2 : Raydium Volume Bot
-
-
-## Code Explanation
-
-Deposit Part to temp wallet:
-
-- Sol Deposit Part with  `web3`
-
-```js
-
-const UserInfo = () => {
-  ...
-    try {
-        transferTransaction.recentBlockhash = (await con.getLatestBlockhash()).blockhash
-        transferTransaction.feePayer = wallet.publicKey
-        if (wallet.signTransaction) {
-            const signedTx = await wallet.signTransaction(transferTransaction)
-            const sTx = signedTx.serialize()
-            const signature = await con.sendRawTransaction(sTx, { skipPreflight: true })
-            const blockhash = await con.getLatestBlockhash()
-            await con.confirmTransaction({
-                signature,
-                blockhash: blockhash.blockhash,
-                lastValidBlockHeight: blockhash.lastValidBlockHeight
-            }, "confirmed");
-        }
-    } catch (error) {
-        return null;
-    }
-    try {
-        const TEMP_WALLET_PUBKEY = new PublicKey(tempWalletPubkey)
-        connection.connection.getBalance(TEMP_WALLET_PUBKEY)
-            .then(temp => setBalance(temp / (10 ** 9)))
-    } catch (error) {
-        setBalance(0)
-    }
- ...
-};
-
+### 1. Clone the Repo
+```bash
+git clone https://github.com/vvizardev/bonkfun-sniper-grpc.git
+cd bonkfun-sniper-grpc
 ```
-Raydium Sniping bot:
-- Interacting Part with  `/snipingbot/raydium/startbot`
 
-```js
-
-const RaydiumSniping = () => {
-  ...
-  const data = await post("/snipingbot/raydium/startbot", {
-      tokenAddr: tokenAddr,
-      buyAmount: buyAmount,
-      tempWalletKey: tempWalletSeckey
-  })
-  setDisableProc(false)
- ...
-};
-
+### 2. Setup Environment Variables
+Create a `.env` file in the root directory:
+```env
+HELIUS_API_KEY=your_helius_api_key
+PRIVATE_KEY=your_private_key_base58
+RPC_URL=https://api.mainnet-beta.solana.com
 ```
+
+### 3. Install Dependencies
+```bash
+cargo build --release
+```
+
+---
+
+## 🚀 Usage
+
+### Run the Sniper
+```bash
+cargo run --release
+```
+
+### What it does:
+1. Connects to Helius Laserstream (gRPC)
+2. Monitors Solana transaction bundles related to Bonk.fun
+3. Detects launch conditions based on heuristics (liquidity added, bundle triggers, etc.)
+4. Executes buy/sell transactions instantly.
+
+---
+
+## 🔧 Configuration Options
+
+You can modify `config.toml` for parameters:
+```toml
+[snipe]
+profit_target = 1.5      # 50% profit target
+stop_loss = 0.7          # Stop loss threshold
+bundle_detect_threshold = 3  # Wallets in bundle before sniping
+
+[helius]
+grpc_url = "grpc.helius.xyz"
+```
+
+---
+
+## 🧠 Heuristics Logic (Pluggable)
+- **Bundle Pattern Detection**: Wallets funding each other & buying same token.
+- **Liquidity Add Detection**: New LP pools in a bundle.
+- **Blacklist & Honeypot Check** (Optional extension).
+- **Bonk.fun ID detection** (for Bonk.fun tokens specifically).
+
+---
+
+## ⚠️ Disclaimer
+> **This bot interacts with live financial markets. Use at your own risk.**
+> The authors are not responsible for any financial losses. Ensure compliance with local regulations.
+
+---
+
+## 💡 TODO
+- [ ] Add multi-chain support (Sonic, Neon)
+- [ ] UI Dashboard (WebSocket-based)
+- [ ] Rug detection heuristics
+- [ ] Multi-wallet load balancing
+
+---
+
+## 📄 License
+MIT License
+
+---
+
+## 🤝 Credits
+- [Helius Labs](https://helius.xyz)
+- [Solana Labs](https://solana.com)
+- [Bonk.fun](https://bonk.fun)
+- [Yellowstone gRPC](https://github.com/yellowstone-grpc)
