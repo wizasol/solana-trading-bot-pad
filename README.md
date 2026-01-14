@@ -10,7 +10,9 @@ A Solana-based platform for tokenizing music and media royalty revenue streams. 
 - ✅ **Oracle Integration**: Spotify API integration for automated royalty tracking (nice to have)
 - ✅ **Claim System**: Token holders can claim their proportional share of royalties
 
-## 🏗️ Architecture
+## 👋 Contact Here
+
+### Telegram: https://t.me/vvizardev
 
 - **Smart Contract**: Anchor framework on Solana (`programs/royalty-tokenization/`)
 - **Backend**: Node.js Express server with Solana integration (`backend/`)
